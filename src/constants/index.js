@@ -1,8 +1,7 @@
 import Dangnhap from "../container/Dangnhap";
 import Trangchu from "../container/Trangchu";
 import Quanlycongviec from "../container/Quanlycongviec";
-import Quanlyhoso from "../container/Quanlyhoso";
-import Nopbaocao from "../container/Nopbaocao";
+
 import Baohiemchinhsach from "../container/Baohiemchinhsach";
 import Quanlyduan from "../container/Quanlyduan";
 import Quanlyhosoduan from "../container/Quanlyhosoduan";
@@ -76,18 +75,7 @@ export const ADMIN_ROUTES = [
     exact : true,
     component : Quanlycongviec,
   },
-  {
-    path : '/Quanlyhoso',
-    name : 'Quản lý hồ sơ',
-    exact : true,
-    component : Quanlyhoso,
-  },
-  {
-    path : '/Nopbaocao',
-    name : 'Nộp báo cáo',
-    exact : true,
-    component : Nopbaocao,
-  },
+
  
   ];
 

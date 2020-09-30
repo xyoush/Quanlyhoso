@@ -12,11 +12,52 @@ import { AccountCircle, Lock } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { Component } from "react";
 import styles from "./styles";
+import { Mutation } from "react-apollo";
+
+import gql from "graphql-tag";
+
+
+const LOGIN_MUTATION = gql`
+  mutation Login($input: UsersPermissionsLoginInput!) {
+    login(input: $input) {
+      jwt
+
+      user {
+        id
+
+        email
+
+        username
+
+        confirmed
+
+        blocked
+
+        role {
+          id
+
+          name
+
+          description
+
+          type
+        }
+      }
+    }
+  }
+`; //mutation của login, khi submit thì mutation này sẽ được gọi
 
 class Dangnhap extends Component {
+  // GrapSQL
+//state để lưu dữ liệu
+  state = {
+    identifier: "",
+
+    password: "",
+  };
   render() {
     const { classes } = this.props;
-
+    const { identifier, password } = this.state;
     return (
       <div className={classes.background}>
         <div className={classes.login}>
@@ -45,9 +86,11 @@ class Dangnhap extends Component {
                         <TextField
                           id="username"
                           type="email"
-                          required
-                          fullWidth
-                          placeholder="Nhập Tài Khoản..."
+                          value={identifier} // lấy value cho variables
+                          onChange={(e) =>
+                            this.setState({ identifier: e.target.value })
+                          }
+                          // dữ liệu được điền vào sẽ lưu vào state, và được dùng khi mutation được g
                           InputProps={{
                             className: classes.user,
                             startAdornment: (
@@ -64,10 +107,12 @@ class Dangnhap extends Component {
                             input: classes.inputInput,
                           }}
                           id="password"
-                          required
-                          fullWidth
                           type="password"
-                          placeholder="Nhập Mật Khẩu..."
+                          value={password} // lấy value cho variables
+                          onChange={(e) =>
+                            this.setState({ password: e.target.value })
+                          }
+                          // dữ liệu được điền vào sẽ lưu vào state, và được dùng khi mutation được gử
                           InputProps={{
                             className: classes.pass,
                             startAdornment: (
@@ -77,15 +122,30 @@ class Dangnhap extends Component {
                             ),
                           }}
                         />
-                        <Button
-                          type="submit"
-                          fullWidth
-                          variant="contained"
-                          color="primary"
-                          className={classes.button}
+
+                        <Mutation
+                          mutation={LOGIN_MUTATION} //
+                          variables={{ input: { identifier, password } }}
+                          onCompleted={() =>
+                            this.props.history.push("/trangchu")
+                          }
                         >
-                          Đăng Nhập
-                        </Button>
+                          {(mutation) => (
+                            //khi login thành công thì sẽ push/chuyển hướng sang trangchu
+
+                            <Button
+                              onClick={mutation}
+                              fullWidth
+                              variant="contained"
+                              color="primary"
+                              className={classes.button}
+                            >
+                              Đăng Nhập
+                            </Button>
+                          )}
+
+                          {/* ở trên dùng render props để có thể dùng component Button trong component Mutation */}
+                        </Mutation>
                         <a href="/#" className={classes.a}>
                           <Typography className={classes.Fpass}>
                             Quên Mật Khẩu

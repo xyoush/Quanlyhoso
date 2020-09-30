@@ -62,8 +62,8 @@ class Sidebar extends Component {
                       {index === 7 && <BarChartIcon color="primary" />}
                       {index === 8 && <LocalLibraryIcon color="primary" />}
                       {index === 9 && <WorkIcon color="primary" />}
-                      {index === 10 && <PermContactCalendarIcon color="primary" />}
-                      {index === 11 && <LibraryBooksIcon color="primary" />}
+                
+                   
                       <ListItemText
                         primary={item.name}
                         className={classes.text}
